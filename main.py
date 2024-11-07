@@ -195,13 +195,14 @@ def list_genres():
     xbmcplugin.setPluginCategory(HANDLE, 'Public Domain Movies')
     # Set plugin content. It allows Kodi to select appropriate views
     # for this type of content.
-    xbmcplugin.setContent(HANDLE, 'movies')
+    #xbmcplugin.setContent(HANDLE, 'movies')
     # Get movie genres
     genres = get_genres()
     # Iterate through genres
     for index, genre_info in enumerate(genres):
         # Create a list item with a text label.
         list_item = xbmcgui.ListItem(label=genre_info['genre'])
+        list_item.setLabel2(f'{genre_info["genre"]} label2')
         # Set images for the list item.
         list_item.setArt({'icon': genre_info['icon'], 'fanart': genre_info['fanart']})
         # Set additional info for the list item using its InfoTag.
@@ -221,7 +222,7 @@ def list_genres():
         # Add our item to the Kodi virtual folder listing.
         xbmcplugin.addDirectoryItem(HANDLE, url, list_item, is_folder)
     # Add sort methods for the virtual folder items
-    xbmcplugin.addSortMethod(HANDLE, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE)
+    xbmcplugin.addSortMethod(HANDLE, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE, '%L', '%h')
     # Finish creating a virtual folder.
     xbmcplugin.endOfDirectory(HANDLE)
 
@@ -245,7 +246,7 @@ def list_videos(genre_index):
     # Iterate through videos.
     for video in videos:
         # Create a list item with a text label
-        list_item = xbmcgui.ListItem(label=video['title'])
+        list_item = xbmcgui.ListItem(label=video['title'], label2=f'{video["title"]} label2')
         # Set graphics (thumbnail, fanart, banner, poster, landscape etc.) for the list item.
         # Here we use only poster for simplicity's sake.
         # In a real-life plugin you may need to set multiple image types.
@@ -270,7 +271,7 @@ def list_videos(genre_index):
         # Add our item to the Kodi virtual folder listing.
         xbmcplugin.addDirectoryItem(HANDLE, url, list_item, is_folder)
     # Add sort methods for the virtual folder items
-    xbmcplugin.addSortMethod(HANDLE, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE)
+    xbmcplugin.addSortMethod(HANDLE, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE, '%L', '%h')
     xbmcplugin.addSortMethod(HANDLE, xbmcplugin.SORT_METHOD_VIDEO_YEAR)
     # Finish creating a virtual folder.
     xbmcplugin.endOfDirectory(HANDLE)
